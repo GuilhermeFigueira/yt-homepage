@@ -7,13 +7,16 @@ import {
 	Bell,
 	CircleDollarSign,
 	Contact2,
+	HelpCircle,
 	Languages,
 	LogOut,
 	Menu,
 	Mic,
 	MoonIcon,
 	Search,
+	Settings,
 	Shield,
+	ShieldAlert,
 	SunIcon,
 	Upload,
 	User,
@@ -21,7 +24,6 @@ import {
 	Youtube,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
-import { ModeToggle } from "../components/ui/theme-toggler";
 import { Input } from "../components/ui/input";
 import { useState } from "react";
 import {
@@ -32,20 +34,19 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuPortal,
 	DropdownMenuSeparator,
-	DropdownMenuShortcut,
 	DropdownMenuSub,
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "@/app/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
-import { Skeleton } from "../components/ui/skeleton";
 import { useTheme } from "next-themes";
 import { Switch } from "../components/ui/switch";
 export default function PageHeader() {
 	const { theme, setTheme } = useTheme();
 	const [showFullWidthSearch, setShowFullWidthSearch] = useState(false);
 	const [strictMode, setStrictMode] = useState(false);
+	const [local, setLocal] = useState<string>("Brasil");
 	return (
 		<div className="flex gap-10 lg:gap-20 justify-between pt-2 mb-6 mx-4 ">
 			<div
@@ -138,7 +139,7 @@ export default function PageHeader() {
 							<User />
 						</Button>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent className="w-72 rounded-2xl">
+					<DropdownMenuContent className="w-72 rounded-2xl p-4 child:my-1">
 						<DropdownMenuLabel className="p-4 flex items-center gap-4 ">
 							<Avatar>
 								<AvatarImage
@@ -237,19 +238,19 @@ export default function PageHeader() {
 										<DropdownMenuItem>
 											English
 										</DropdownMenuItem>
-										<DropdownMenuItem>
-											System
-										</DropdownMenuItem>
 									</DropdownMenuSubContent>
 								</DropdownMenuPortal>
 							</DropdownMenuSub>
 							<DropdownMenuSub>
 								<DropdownMenuSubTrigger>
 									<Shield className="mr-2 h-4 w-4" />
-									<span>Modo restrito: {strictMode}</span>
+									<span>
+										Modo restrito:{" "}
+										{strictMode ? "Ativado" : "Desativado"}
+									</span>
 								</DropdownMenuSubTrigger>
 								<DropdownMenuPortal>
-									<DropdownMenuSubContent className="w-80 bg-secondary">
+									<DropdownMenuSubContent className="w-[21rem] bg-secondary">
 										<h1 className="px-4 py-2">
 											Modo Restrito
 										</h1>
@@ -263,10 +264,57 @@ export default function PageHeader() {
 											apenas a este navegador.
 										</p>
 										<div className="flex items-center justify-between px-4 py-2 uppercase">
-											<h2 className="contrast-0 font-medium">
+											<h2
+												className="contrast-0 font-medium
+											"
+											>
 												Ative o modo restrito
 											</h2>
-											<Switch />
+											<Switch
+												onCheckedChange={() =>
+													setStrictMode(!strictMode)
+												}
+											/>
+										</div>
+										{strictMode && (
+											<p className="px-4 py-2 text-sm">
+												O Modo de segurança impede que
+												outros usuários alterem a
+												configuração do Modo restrito
+												neste navegador. <br /> <br />
+												Bloquear o Modo restrito neste
+												navegador
+											</p>
+										)}
+									</DropdownMenuSubContent>
+								</DropdownMenuPortal>
+							</DropdownMenuSub>
+							<DropdownMenuSub>
+								<DropdownMenuSubTrigger>
+									<Shield className="mr-2 h-4 w-4" />
+									<span>Local: {local}</span>
+								</DropdownMenuSubTrigger>
+								<DropdownMenuPortal>
+									<DropdownMenuSubContent className="bg-secondary">
+										<h1 className="px-4 py-2">
+											Selecione o seu local
+										</h1>
+										<DropdownMenuSeparator />
+										<div className="child:px-8">
+											<DropdownMenuItem
+												onClick={() =>
+													setLocal("Brasil")
+												}
+											>
+												Brasil
+											</DropdownMenuItem>
+											<DropdownMenuItem
+												onClick={() =>
+													setLocal("Não Brasil")
+												}
+											>
+												Não Brasil
+											</DropdownMenuItem>
 										</div>
 									</DropdownMenuSubContent>
 								</DropdownMenuPortal>
@@ -274,21 +322,17 @@ export default function PageHeader() {
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							{/* <Github className="mr-2 h-4 w-4" /> */}
-							<span>GitHub</span>
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							{/* <LifeBuoy className="mr-2 h-4 w-4" /> */}
-							<span>Support</span>
-						</DropdownMenuItem>
-						<DropdownMenuItem disabled>
-							{/* <Cloud className="mr-2 h-4 w-4" /> */}
-							<span>API</span>
+							<Settings className="mr-2 h-4 w-4" />
+							<span>Configurações</span>
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							{/* <LogOut className="mr-2 h-4 w-4" /> */}
-							<span>Log out</span>
+							<HelpCircle className="mr-2 h-4 w-4" />
+							<span>Ajuda</span>
+						</DropdownMenuItem>
+						<DropdownMenuItem>
+							<ShieldAlert className="mr-2 h-4 w-4" />
+							<span>Enviar feedback</span>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
