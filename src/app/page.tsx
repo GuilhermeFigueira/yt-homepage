@@ -11,7 +11,9 @@ export default function Home() {
 			<PageHeader />
 			<div className="grid grid-cols-[auto,1fr] flex-grow-1 overflow-auto ">
 				<div>Sidebar</div>
-				<PillsBar />
+				<div className="overflow-x-hidden px-8 pb-4">
+					<PillsBar />
+				</div>
 			</div>
 		</main>
 	);
