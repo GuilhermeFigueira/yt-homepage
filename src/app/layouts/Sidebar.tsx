@@ -21,7 +21,16 @@ export default function Sidebar() {
 					url="/library"
 				/>
 			</aside>
-			<aside className="w-56 lg:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2 flex"></aside>
+			<aside className="w-56 lg:sticky absolute top-0 overflow-y-auto scrollbar-hidden pb-4 flex-col gap-2 px-2 flex">
+				<LargeSideBarSection>
+					<LargeSideBarItem
+						isActive
+						Icon={Home}
+						title="Home"
+						url="/"
+					/>
+				</LargeSideBarSection>
+			</aside>
 		</>
 	);
 }
@@ -41,6 +50,41 @@ function SmallSideBarItem({ Icon, title, url }: SmallSideBarItemProps) {
 		>
 			<Icon className="w-6 h-6" />
 			<div className="text-sm">{title}</div>
+		</Link>
+	);
+}
+
+function LargeSideBarSection({ children }: { children: any }) {
+	return children;
+}
+
+type LargeSideBarItemProps = {
+	isActive?: boolean;
+	Icon: ElementType;
+	title: string;
+	url: string;
+};
+
+function LargeSideBarItem({
+	isActive = false,
+	Icon,
+	title,
+	url,
+}: LargeSideBarItemProps) {
+	return (
+		<Link
+			href={url}
+			className={twMerge(
+				buttonVariants({ variant: "ghost" }),
+				`w-full flex items-center rounded-lg gap-4 p-3 ${
+					isActive ? "font-bold bg-neutral-100 " : undefined
+				}`
+			)}
+		>
+			<Icon className="w-6 h-6" />
+			<div className="whitespace-nowrap overflow-hidden text-ellipsis">
+				{title}
+			</div>
 		</Link>
 	);
 }
