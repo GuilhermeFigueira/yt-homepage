@@ -1,8 +1,22 @@
-import { Clapperboard, Home, Library, Repeat } from "lucide-react";
+"use client";
+import {
+	ChevronDown,
+	ChevronUp,
+	Clapperboard,
+	Clock,
+	Home,
+	Library,
+	History,
+	PlaySquare,
+	Repeat,
+	ListVideo,
+} from "lucide-react";
 import Link from "next/link";
-import { ElementType } from "react";
-import { buttonVariants } from "../components/ui/button";
+import { Children, ElementType, ReactNode, useState } from "react";
+import { Button, buttonVariants } from "../components/ui/button";
 import { twMerge } from "tailwind-merge";
+import { playlists, subscriptions } from "../data/sidebar";
+import Image from "next/image";
 
 export default function Sidebar() {
 	return (
@@ -25,10 +39,57 @@ export default function Sidebar() {
 				<LargeSideBarSection>
 					<LargeSideBarItem
 						isActive
-						Icon={Home}
+						IconOrImgUrl={Home}
 						title="Home"
 						url="/"
 					/>
+					<LargeSideBarItem
+						IconOrImgUrl={Clapperboard}
+						title="Subscriptions"
+						url="/subscriptions"
+					/>
+				</LargeSideBarSection>
+				<hr />
+				<LargeSideBarSection visibleItemCount={5}>
+					<LargeSideBarItem
+						IconOrImgUrl={Library}
+						title="Library"
+						url="/library"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={History}
+						title="History"
+						url="/history"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={PlaySquare}
+						title="Your Videos"
+						url="/your-videos"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={Clock}
+						title="Watch Later"
+						url="/playlist?list=WL"
+					/>
+					{playlists.map((playlist) => (
+						<LargeSideBarItem
+							key={playlist.id}
+							IconOrImgUrl={ListVideo}
+							title={playlist.name}
+							url={`/playlist?list=${playlist.id}`}
+						/>
+					))}
+				</LargeSideBarSection>
+				<hr />
+				<LargeSideBarSection title="Subscriptions">
+					{subscriptions.map((subscription) => (
+						<LargeSideBarItem
+							key={subscription.id}
+							IconOrImgUrl={subscription.imgUrl}
+							title={subscription.channelName}
+							url={`/@${subscription.id}/`}
+						/>
+					))}
 				</LargeSideBarSection>
 			</aside>
 		</>
@@ -53,21 +114,51 @@ function SmallSideBarItem({ Icon, title, url }: SmallSideBarItemProps) {
 		</Link>
 	);
 }
-
-function LargeSideBarSection({ children }: { children: any }) {
-	return children;
+type LargeSideBarSectionProps = {
+	children: ReactNode;
+	title?: string;
+	visibleItemCount?: number;
+};
+function LargeSideBarSection({
+	children,
+	title,
+	visibleItemCount = Number.POSITIVE_INFINITY,
+}: LargeSideBarSectionProps) {
+	const [isExpanded, setIsExpanded] = useState(false);
+	const childrenArray = Children.toArray(children).flat();
+	const showExpandButton = childrenArray.length > visibleItemCount;
+	const visibleChildren = isExpanded
+		? childrenArray
+		: childrenArray.slice(0, visibleItemCount);
+	const ButtonIcon = isExpanded ? ChevronUp : ChevronDown;
+	return (
+		<div>
+			{title && <div className="ml-4 mt-2 text-lg mb-1">{title}</div>}
+			{visibleChildren}
+			{showExpandButton && (
+				<Button
+					onClick={() => setIsExpanded((e) => !e)}
+					className="w-full flex items-center rounded-lg gap-4 p-3 "
+					variant={"ghost"}
+				>
+					<ButtonIcon className="h-6 w-6" />
+					<div>{isExpanded ? "Show Less" : "Show More"}</div>
+				</Button>
+			)}
+		</div>
+	);
 }
 
 type LargeSideBarItemProps = {
 	isActive?: boolean;
-	Icon: ElementType;
+	IconOrImgUrl: ElementType | string;
 	title: string;
 	url: string;
 };
 
 function LargeSideBarItem({
 	isActive = false,
-	Icon,
+	IconOrImgUrl,
 	title,
 	url,
 }: LargeSideBarItemProps) {
@@ -77,11 +168,23 @@ function LargeSideBarItem({
 			className={twMerge(
 				buttonVariants({ variant: "ghost" }),
 				`w-full flex items-center rounded-lg gap-4 p-3 ${
-					isActive ? "font-bold bg-neutral-100 " : undefined
+					isActive
+						? "font-bold bg-secondary/70 hover:bg-secondary  "
+						: undefined
 				}`
 			)}
 		>
-			<Icon className="w-6 h-6" />
+			{typeof IconOrImgUrl === "string" ? (
+				<Image
+					src={IconOrImgUrl}
+					alt=""
+					width={176}
+					height={176}
+					className="w-6 h-6 rounded-full"
+				/>
+			) : (
+				<IconOrImgUrl className="w-6 h-6" />
+			)}
 			<div className="whitespace-nowrap overflow-hidden text-ellipsis">
 				{title}
 			</div>

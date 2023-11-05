@@ -22,12 +22,12 @@ export default function AddVideo() {
 	return (
 		<Sheet>
 			<SheetTrigger
-				className="flex flex-col w-full h-full object-cover transition-[border-radius] duration-200"
+				className="flex flex-col w-full h-full object-cover transition-[border-radius] duration-200 shrink-0"
 				asChild
 			>
-				<Button variant={"outline"} className="group">
-					Adicionar Vídeo
-					<Plus className="w-28 h-28 stroke-accent group-hover:stroke-card" />
+				<Button variant={"outline"} className="group justify-center">
+					<h1 className="text-primary/60">Adicionar Vídeo</h1>
+					<Plus className="w-28 h-28 stroke-[#a5a591] " />
 				</Button>
 			</SheetTrigger>
 			<SheetContent>
