@@ -61,7 +61,7 @@ export default function VideoGridItem({
 					width={1280}
 					height={720}
 				/>
-				<div className="absolute bottom-1 right-1 bg-secondary-foreground text-secondary text-sm px-0.5 rounded">
+				<div className="absolute bottom-1 right-1 bg-secondary text-secondary-foreground text-sm px-0.5 rounded">
 					{formatDuration(duration)}
 				</div>
 				<video

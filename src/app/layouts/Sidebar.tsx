@@ -10,6 +10,17 @@ import {
 	PlaySquare,
 	Repeat,
 	ListVideo,
+	Film,
+	Flame,
+	Gamepad2,
+	Lightbulb,
+	Music2,
+	Newspaper,
+	Podcast,
+	Radio,
+	Shirt,
+	ShoppingBag,
+	Trophy,
 } from "lucide-react";
 import Link from "next/link";
 import { Children, ElementType, ReactNode, useState } from "react";
@@ -22,16 +33,16 @@ export default function Sidebar() {
 	return (
 		<>
 			<aside className="sticky top-0 overflow-y-auto scrollbar-hidden pb-4 flex flex-col ml-1 lg:hidden">
-				<SmallSideBarItem Icon={Home} title="Home" url="/" />
+				<SmallSideBarItem Icon={Home} title="Início" url="/" />
 				<SmallSideBarItem Icon={Repeat} title="Shorts" url="/shorts" />
 				<SmallSideBarItem
 					Icon={Clapperboard}
-					title="Subscriptions"
+					title="Inscrições"
 					url="/subscriptions"
 				/>
 				<SmallSideBarItem
 					Icon={Library}
-					title="Library"
+					title="Biblioteca"
 					url="/library"
 				/>
 			</aside>
@@ -40,12 +51,12 @@ export default function Sidebar() {
 					<LargeSideBarItem
 						isActive
 						IconOrImgUrl={Home}
-						title="Home"
+						title="Início"
 						url="/"
 					/>
 					<LargeSideBarItem
 						IconOrImgUrl={Clapperboard}
-						title="Subscriptions"
+						title="Inscrições"
 						url="/subscriptions"
 					/>
 				</LargeSideBarSection>
@@ -53,22 +64,22 @@ export default function Sidebar() {
 				<LargeSideBarSection visibleItemCount={5}>
 					<LargeSideBarItem
 						IconOrImgUrl={Library}
-						title="Library"
+						title="Biblioteca"
 						url="/library"
 					/>
 					<LargeSideBarItem
 						IconOrImgUrl={History}
-						title="History"
+						title="Histórico"
 						url="/history"
 					/>
 					<LargeSideBarItem
 						IconOrImgUrl={PlaySquare}
-						title="Your Videos"
+						title="Seus ídeos"
 						url="/your-videos"
 					/>
 					<LargeSideBarItem
 						IconOrImgUrl={Clock}
-						title="Watch Later"
+						title="Assistir mais arde"
 						url="/playlist?list=WL"
 					/>
 					{playlists.map((playlist) => (
@@ -90,6 +101,59 @@ export default function Sidebar() {
 							url={`/@${subscription.id}/`}
 						/>
 					))}
+				</LargeSideBarSection>
+				<hr />
+				<LargeSideBarSection title="Explore">
+					<LargeSideBarItem
+						IconOrImgUrl={Flame}
+						title="Em alta"
+						url="/trending"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={ShoppingBag}
+						title="Shopping"
+						url="/shopping"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={Music2}
+						title="Música"
+						url="/music"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={Film}
+						title="Filmes"
+						url="/movies-tv"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={Radio}
+						title="Ao vivo"
+						url="/live"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={Gamepad2}
+						title="Jogos"
+						url="/gaming"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={Newspaper}
+						title="Notícias"
+						url="/news"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={Trophy}
+						title="Esportes"
+						url="/sports"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={Lightbulb}
+						title="Aprender"
+						url="/learning"
+					/>
+					<LargeSideBarItem
+						IconOrImgUrl={Podcast}
+						title="Podcasts"
+						url="/podcasts"
+					/>
 				</LargeSideBarSection>
 			</aside>
 		</>
@@ -167,7 +231,7 @@ function LargeSideBarItem({
 			href={url}
 			className={twMerge(
 				buttonVariants({ variant: "ghost" }),
-				`w-full flex items-center rounded-lg gap-4 p-3 ${
+				`w-full flex items-center rounded-lg gap-5 p-4 py-5 font-light ${
 					isActive
 						? "font-bold bg-secondary/70 hover:bg-secondary  "
 						: undefined
