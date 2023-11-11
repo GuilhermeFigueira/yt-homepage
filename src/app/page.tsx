@@ -5,7 +5,6 @@ import PageHeader from "./layouts/PageHeader";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import Sidebar from "./layouts/Sidebar";
-import AddVideo from "./components/AddVideo";
 import { SideBarProvider } from "./contexts/SideBarContext";
 
 const PillsBar = dynamic(() => import("./layouts/PillsBar"), {
@@ -26,7 +25,6 @@ export default function Home() {
 									<VideoGridItem key={video.id} {...video} />
 								))}
 							</Suspense>
-							<AddVideo />
 						</div>
 					</div>
 				</div>
