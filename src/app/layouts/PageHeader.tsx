@@ -42,32 +42,16 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { useTheme } from "next-themes";
 import { Switch } from "../components/ui/switch";
+import { useSideBarContext } from "../contexts/SideBarContext";
 export default function PageHeader() {
 	const { theme, setTheme } = useTheme();
 	const [showFullWidthSearch, setShowFullWidthSearch] = useState(false);
 	const [strictMode, setStrictMode] = useState(false);
 	const [local, setLocal] = useState<string>("Brasil");
+
 	return (
 		<div className="flex gap-10 lg:gap-20 justify-between pt-2 mb-6 mx-4 ">
-			<div
-				className={` gap-4 items-center flex-shrink-0 ${
-					showFullWidthSearch ? "hidden" : "flex"
-				}`}
-			>
-				<Button variant={"ghost"} size={"icon"}>
-					<Menu />
-				</Button>
-				<Button variant={"link"}>
-					<Link href={"/"}>
-						<Image
-							src={logo}
-							alt={"Youtube logo"}
-							className="h-6 w-auto dark:invert"
-							priority
-						/>
-					</Link>
-				</Button>
-			</div>
+			<PageHeaderFirstSection hidden={showFullWidthSearch} />
 			<form
 				className={` gap-4 flex-grow justify-center ${
 					showFullWidthSearch ? "flex" : "hidden md:flex"
@@ -332,11 +316,41 @@ export default function PageHeader() {
 						</DropdownMenuItem>
 						<DropdownMenuItem>
 							<ShieldAlert className="mr-2 h-4 w-4" />
-							<span>Enviar feedback</span>
+							<span>Enviar feedback a</span>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>
+		</div>
+	);
+}
+
+type PageHeaderFirstSectionProps = {
+	hidden?: boolean;
+};
+export function PageHeaderFirstSection({
+	hidden,
+}: PageHeaderFirstSectionProps) {
+	const { toggle } = useSideBarContext();
+	return (
+		<div
+			className={` gap-4 items-center flex-shrink-0 ${
+				hidden ? "hidden" : "flex"
+			}`}
+		>
+			<Button variant={"ghost"} size={"icon"} onClick={toggle}>
+				<Menu />
+			</Button>
+			<Button variant={"link"}>
+				<Link href={"/"}>
+					<Image
+						src={logo}
+						alt={"Youtube logo"}
+						className="h-6 w-auto dark:invert"
+						priority
+					/>
+				</Link>
+			</Button>
 		</div>
 	);
 }
